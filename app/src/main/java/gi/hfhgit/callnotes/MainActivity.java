@@ -16,6 +16,7 @@ import android.widget.Button;
 
 import static android.Manifest.permission.CAPTURE_AUDIO_OUTPUT;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.READ_PHONE_STATE;
 import static android.Manifest.permission.RECORD_AUDIO;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
@@ -66,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         initPolicyManager();
-        requestPermissions(new String[]{READ_EXTERNAL_STORAGE, RECORD_AUDIO, WRITE_EXTERNAL_STORAGE, CAPTURE_AUDIO_OUTPUT},
+        requestPermissions(new String[]{READ_PHONE_STATE, READ_EXTERNAL_STORAGE, RECORD_AUDIO, WRITE_EXTERNAL_STORAGE, CAPTURE_AUDIO_OUTPUT},
                 PERMISSION_REQUEST_CODE);
     }
 
@@ -83,10 +84,10 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION, "Click on Activate button to secure your application.");
                 startActivityForResult(intent, REQUEST_CODE);
             } else {
-                // mDPM.lockNow();
-                // Intent intent = new Intent(MainActivity.this,
-                // TrackDeviceService.class);
-                // startService(intent);
+//                mDPM.lockNow();
+                Intent intent = new Intent(MainActivity.this,
+                        MyTService.class);
+                startService(intent);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -98,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (REQUEST_CODE == requestCode) {
-            Intent intent = new Intent(MainActivity.this, TService.class);
+            Intent intent = new Intent(MainActivity.this, MyTService.class);
             startService(intent);
         }
     }

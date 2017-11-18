@@ -10,6 +10,7 @@ import java.util.Date;
 
 /**
  * Created by vytautasdagilis on 18/11/2017.
+ *
  */
 
 public class Recorder {
@@ -19,7 +20,7 @@ public class Recorder {
 
     public void init() {
         callrecorder = new MediaRecorder();
-        callrecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        callrecorder.setAudioSource(MediaRecorder.AudioSource.VOICE_COMMUNICATION);
         callrecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
         callrecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
 
