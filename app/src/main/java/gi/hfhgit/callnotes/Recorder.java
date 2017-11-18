@@ -6,6 +6,7 @@ import android.util.Log;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 
 /**
  * Created by vytautasdagilis on 18/11/2017.
@@ -18,12 +19,12 @@ public class Recorder {
 
     public void init() {
         callrecorder = new MediaRecorder();
-        callrecorder.setAudioSource(MediaRecorder.AudioSource.VOICE_CALL);
-        callrecorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT);
-        callrecorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
+        callrecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        callrecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+        callrecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
 
         callrecorder.setOutputFile(getFilePath());
-
+        recording = false;
     }
 
     private String getFilePath() {
@@ -35,10 +36,16 @@ public class Recorder {
             file.mkdirs();
 
         Log.e("Recorder", "Drirectory status. Exists: " + file.exists() + " Can Write: " + file.canWrite() + " Path " + file.getAbsolutePath());
-        String filePath = file.getAbsolutePath() + "/" + "test.3gp";
+        String filePath = file.getAbsolutePath() + "/" + "test" + new Date().getTime() + ".3gp";
         File fileLocation = new File(filePath);
         if (fileLocation.exists()) {
             fileLocation.delete();
+        }
+        try {
+            fileLocation.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+            Log.e("Recorder", "error creating file");
         }
         Log.e("Recorder", "File status. Exists: " + fileLocation.exists() + " Can Write: " + fileLocation.canWrite() + " Path " + fileLocation.getAbsolutePath());
         return fileLocation.getAbsolutePath();

@@ -48,7 +48,19 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("Button", "butt on click");
                 Log.e("Button", "butt on click - Errr ;)");
 
-                Snackbar.make(view, "My damn button", Snackbar.LENGTH_LONG)
+                Recorder recorder = new Recorder();
+                Snackbar.make(view, "Recording for 5 seconds", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+                recorder.init();
+                recorder.record();
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                recorder.stop();
+
+                Snackbar.make(view, "Recording complete", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
