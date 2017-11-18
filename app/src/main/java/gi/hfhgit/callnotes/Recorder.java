@@ -15,15 +15,17 @@ public class Recorder {
 
     private MediaRecorder callrecorder;
     boolean recording = false;
+
     public void init() {
         callrecorder = new MediaRecorder();
         callrecorder.setAudioSource(MediaRecorder.AudioSource.VOICE_CALL);
-        callrecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
-        callrecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+        callrecorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT);
+        callrecorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
 
         callrecorder.setOutputFile(getFilePath());
 
     }
+
     private String getFilePath() {
 
         String filepath = Environment.getExternalStorageDirectory().getPath();
@@ -32,15 +34,25 @@ public class Recorder {
         if (!file.exists())
             file.mkdirs();
 
-        return (file.getAbsolutePath() + "/" + "TestFile.nom");
+        Log.e("Recorder", "Drirectory status. Exists: " + file.exists() + " Can Write: " + file.canWrite() + " Path " + file.getAbsolutePath());
+        String filePath = file.getAbsolutePath() + "/" + "test.3gp";
+        File fileLocation = new File(filePath);
+        if (fileLocation.exists()) {
+            fileLocation.delete();
+        }
+        Log.e("Recorder", "File status. Exists: " + fileLocation.exists() + " Can Write: " + fileLocation.canWrite() + " Path " + fileLocation.getAbsolutePath());
+        return fileLocation.getAbsolutePath();
     }
-    public boolean isRecording(){
+
+    public boolean isRecording() {
         return recording;
     }
+
     public void record() {
         recording = true;
         try {
             callrecorder.prepare();
+            Thread.sleep(1000);
         } catch (IllegalStateException e) {
             Log.e("Recorder", "An IllegalStateException has occured in prepare!");
             e.printStackTrace();
@@ -48,6 +60,8 @@ public class Recorder {
 
             //throwing I/O Exception
             Log.e("Recorder", "An IOException has occured in prepare!");
+            e.printStackTrace();
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
@@ -60,9 +74,10 @@ public class Recorder {
         }
     }
 
-    public void stop(){
+    public void stop() {
         recording = false;
         callrecorder.stop();
+        callrecorder.reset();
         callrecorder.release();
     }
 }

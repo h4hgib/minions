@@ -15,7 +15,7 @@ import android.util.Log;
 public class TService extends Service {
     Context context;
 
-    private Recorder recorderCustom = new Recorder();
+    private static final Recorder recorderCustom = new Recorder();
 
     @Override
     public IBinder onBind(Intent arg0) {
@@ -37,7 +37,6 @@ public class TService extends Service {
         final PhoneStateListener customPhoneListener = new PhoneStateListener() {
             @Override
             public void onCallStateChanged(int state, String incomingNumber) {
-
                 if (state == 2) {
                     recorderCustom.init();
                     recorderCustom.record();
