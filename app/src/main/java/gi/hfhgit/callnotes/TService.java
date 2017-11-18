@@ -1,8 +1,10 @@
 package gi.hfhgit.callnotes;
 
+import android.Manifest;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.IBinder;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
@@ -34,6 +36,10 @@ public class TService extends Service {
     public int onStartCommand(Intent intent, int flags, final int startId) {
         TelephonyManager telephony = (TelephonyManager)
                 getSystemService(Context.TELEPHONY_SERVICE); // TelephonyManager
+
+        if (checkSelfPermission(Manifest.permission.CAPTURE_AUDIO_OUTPUT) != PackageManager.PERMISSION_GRANTED) {
+            Log.e("TService", "CAPTURE_AUDIO_OUTPUT permission not granted!");
+        }
         final PhoneStateListener customPhoneListener = new PhoneStateListener() {
             @Override
             public void onCallStateChanged(int state, String incomingNumber) {
