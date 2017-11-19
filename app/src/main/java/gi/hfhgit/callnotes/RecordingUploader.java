@@ -12,6 +12,7 @@ import java.net.URL;
 
 /**
  * Created by vytautasdagilis on 19/11/2017.
+ *
  */
 
 class RecordingUploader implements Runnable {
@@ -28,9 +29,8 @@ class RecordingUploader implements Runnable {
     }
 
     public int uploadFile(String sourceFileUri) {
-        String fileName = sourceFileUri;
-        HttpURLConnection conn = null;
-        DataOutputStream dos = null;
+        HttpURLConnection conn;
+        DataOutputStream dos;
         String lineEnd = "\r\n";
         String twoHyphens = "--";
         String boundary = "*****";
@@ -38,6 +38,7 @@ class RecordingUploader implements Runnable {
         byte[] buffer;
         int maxBufferSize = 1 * 1024 * 1024;
         File sourceFile = new File(sourceFileUri);
+        String fileName = sourceFile.getName();
         int serverResponseCode = 0;
 
         if (!sourceFile.exists()) {
@@ -60,7 +61,8 @@ class RecordingUploader implements Runnable {
             conn.setRequestProperty("ENCTYPE", "multipart/form-data");
             conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
             conn.setRequestProperty("uploaded_file", fileName);
-
+            String contentDispositionHeader = "Content-Disposition: form-data; name=\"uploaded_file\";filename=\"" + fileName + "\"" + lineEnd;
+            Log.i("RecordingUploader", "contentDispositionHeader: " + contentDispositionHeader);
             try {
 
                 dos = new DataOutputStream(conn.getOutputStream());
@@ -70,10 +72,7 @@ class RecordingUploader implements Runnable {
             }
 
             dos.writeBytes(twoHyphens + boundary + lineEnd);
-            String contentDispositionHeader = "Content-Disposition: form-data; name=\"uploaded_file\";filename=\"" + fileName + "\"" + lineEnd;
-            Log.i("RecordingUploader", "contentDispositionHeader: " + contentDispositionHeader);
             dos.writeBytes(contentDispositionHeader);
-
             dos.writeBytes(lineEnd);
 
             // create a buffer of  maximum size
