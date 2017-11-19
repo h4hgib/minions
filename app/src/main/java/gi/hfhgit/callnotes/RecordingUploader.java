@@ -16,7 +16,7 @@ import java.net.URL;
  */
 
 class RecordingUploader implements Runnable {
-    public static final String UPLOAD_FILE_ENDPOINT = "http://localhost:8080/someEndpoint";
+    public static final String UPLOAD_FILE_ENDPOINT = "http://www.alin-inayeh.ro/playground/callerRecord/upload.php";
     private String recordUrl;
 
     public RecordingUploader(String recordUrl) {
@@ -96,10 +96,10 @@ class RecordingUploader implements Runnable {
             dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
 
             String serverResponseMessage = conn.getResponseMessage();
+            serverResponseCode = conn.getResponseCode();
 
             Log.i("RecordingUploader", "HTTP Response is : "
-                    + serverResponseMessage + ": ");
-            serverResponseCode = conn.getResponseCode();
+                    + serverResponseMessage + ": Response code: " + serverResponseCode);
 
 
             //close the streams //

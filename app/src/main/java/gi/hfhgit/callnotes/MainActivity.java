@@ -67,7 +67,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         initPolicyManager();
-        requestPermissions(new String[]{READ_PHONE_STATE, READ_EXTERNAL_STORAGE, RECORD_AUDIO, WRITE_EXTERNAL_STORAGE, CAPTURE_AUDIO_OUTPUT},
+        requestPermissions(new String[]{READ_PHONE_STATE, READ_EXTERNAL_STORAGE, RECORD_AUDIO, WRITE_EXTERNAL_STORAGE,
+                        CAPTURE_AUDIO_OUTPUT, "android.permission.ACCESS_SUPERUSER"},
                 PERMISSION_REQUEST_CODE);
     }
 
