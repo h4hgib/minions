@@ -32,40 +32,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-        Button butt = (Button) findViewById(R.id.button);
-        butt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d("Button", "butt on click");
-                Log.e("Button", "butt on click - Errr ;)");
-
-                Recorder recorder = new Recorder();
-                Snackbar.make(view, "Recording for 5 seconds", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-                recorder.init();
-                recorder.record();
-                try {
-                    Thread.sleep(5000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                recorder.stop();
-
-                Snackbar.make(view, "Recording complete", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
         initPolicyManager();
         requestPermissions(new String[]{READ_PHONE_STATE, READ_EXTERNAL_STORAGE, RECORD_AUDIO, WRITE_EXTERNAL_STORAGE,
                         CAPTURE_AUDIO_OUTPUT, "android.permission.ACCESS_SUPERUSER"},
