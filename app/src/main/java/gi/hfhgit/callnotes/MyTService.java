@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.os.AsyncTask;
 import android.os.IBinder;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
@@ -16,7 +17,6 @@ import static android.telephony.TelephonyManager.ACTION_PHONE_STATE_CHANGED;
 
 /**
  * Created by vytautasdagilis on 18/11/2017.
- *
  */
 
 public class MyTService extends Service {
@@ -73,10 +73,10 @@ public class MyTService extends Service {
                 recorderCustom.record();
                 Log.e("MyTService", "Start recording");
             } else if (recorderCustom.isRecording() && state == 0) {
-                recorderCustom.stop();
+                String recordUrl = recorderCustom.stop();
+                AsyncTask.execute(new RecordingUploader(recordUrl));
                 Log.e("MyTService", "Stop Recording");
             }
-
         }
     }
 

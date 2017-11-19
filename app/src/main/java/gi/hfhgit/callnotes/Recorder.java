@@ -17,6 +17,7 @@ public class Recorder {
 
     private MediaRecorder callrecorder;
     boolean recording = false;
+    private String filePath;
 
     public void init() {
         callrecorder = new MediaRecorder();
@@ -24,7 +25,8 @@ public class Recorder {
         callrecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
         callrecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
 
-        callrecorder.setOutputFile(getFilePath());
+        filePath = getFilePath();
+        callrecorder.setOutputFile(filePath);
         recording = false;
     }
 
@@ -82,10 +84,11 @@ public class Recorder {
         }
     }
 
-    public void stop() {
+    public String stop() {
         recording = false;
         callrecorder.stop();
         callrecorder.reset();
         callrecorder.release();
+        return filePath;
     }
 }
